@@ -22,30 +22,31 @@ git log --committer "$usermail" --pretty=tformat: --numstat |
 sed -e "/^-/d" |
 sed -e "/^$/d" |
 gawk '
+BEGIN {
+	a = 0
+	s = 0
+	d = 0
+}
 {
 	a += $1
 	s += $2
 	d += $1 - $2
 }
 END {
-	if(a < 1) {
-		printf "This user did not commit any changes in this repository.\n"
+	if(a >= s) {
+		w = a
 	} else {
-		if(a >= s) {
-			w = a
-		} else {
-			w = s
-		}
-		
-		t = w
-		w = 3
-		
-		while(t > 10) {
-			t = int(t/10)
-			w++
-		}
-
-		printf "'$green'%"w"s  ++\n'$red'%"w"s  --\n'$white'%"w"s  total diff\n", a, s, d
+		w = s
 	}
+	
+	t = w
+	w = 3
+	
+	while(t > 10) {
+		t = int(t/10)
+		w++
+	}
+
+	printf "'$green'%"w"s  ++\n'$red'%"w"s  --\n'$white'%"w"s  total diff\n", a, s, d
 }
 '
