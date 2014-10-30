@@ -18,7 +18,10 @@ username=`git config --global --get user.name`
 printf "${white}Total git repository diff stats for %s until $blue%s$white:\n" "$username" "$date"
 
 # get filtered git log, sort out lines, sum up and display it
-git log --author "$usermail" --committer "$usermail" --pretty=tformat: --numstat | sed -e "/^-/d" | sed -e "/^$/d" | gawk '
+git log --committer "$usermail" --pretty=tformat: --numstat |
+sed -e "/^-/d" |
+sed -e "/^$/d" |
+gawk '
 {
 	a += $1
 	s += $2
