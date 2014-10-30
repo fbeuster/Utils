@@ -28,20 +28,24 @@ gawk '
 	d += $1 - $2
 }
 END {
-	if(a >= s) {
-		w = a
+	if(a < 1) {
+		printf "This user did not commit any changes in this repository.\n"
 	} else {
-		w = s
-	}
-	
-	t = w
-	w = 3
-	
-	while(t > 10) {
-		t = int(t/10)
-		w++
-	}
+		if(a >= s) {
+			w = a
+		} else {
+			w = s
+		}
+		
+		t = w
+		w = 3
+		
+		while(t > 10) {
+			t = int(t/10)
+			w++
+		}
 
-	printf "'$green'%"w"s  ++\n'$red'%"w"s  --\n'$white'%"w"s  total diff\n", a, s, d
+		printf "'$green'%"w"s  ++\n'$red'%"w"s  --\n'$white'%"w"s  total diff\n", a, s, d
+	}
 }
 '
