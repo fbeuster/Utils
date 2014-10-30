@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# color shortcuts
+red='\x1b[1;31m'
+green='\x1b[1;32m'
+blue='\x1b[1;34m'
+white='\x1b[1;37m'
+NC='\x1b[0m'
+
+# get and format the most recent date
+date=`git log -1 | grep "^Date:" | gawk '{printf "%s %s, %s - %s", $3, $4, $6, $5}'`
+
+# user information
+usermail=`git config --global --get user.email`
+username=`git config --global --get user.name`
+
+# info text
+printf "${white}Total git repository diff stats for %s until $blue%s$white:\n" "$username" "$date"
+
+# get filtered git log, sort out lines, sum up and display it
+git log --author "$usermail" --committer "$usermail" --pretty=tformat: --numstat | sed -e "/^-/d" | sed -e "/^$/d" | gawk '
+{
+	a += $1
+	s += $2
+	d += $1 - $2
+}
+END {
+	if(a >= s) {
+		w = a
+	} else {
+		w = s
+	}
+	
+	t = w
+	w = 3
+	
+	while(t > 10) {
+		t = int(t/10)
+		w++
+	}
+
+	printf "'$green'%"w"s  ++\n'$red'%"w"s  --\n'$white'%"w"s  total diff\n", a, s, d
+}
+'
