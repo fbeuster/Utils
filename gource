@@ -1,2 +1,3 @@
 #!/bin/bash
-gource --load-config cfg/gource.cfg
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+gource --load-config $dir/cfg/gource.cfg
