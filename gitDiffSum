@@ -42,7 +42,7 @@ END {
 	t = w
 	w = 3
 	
-	while(t > 10) {
+	while(t >= 10) {
 		t = int(t/10)
 		w++
 	}
