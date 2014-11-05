@@ -11,8 +11,8 @@ NC='\x1b[0m'
 date=`git log -1 | grep "^Date:" | gawk '{printf "%s %s, %s - %s", $3, $4, $6, $5}'`
 
 # user information
-usermail=`git config --global --get user.email`
-username=`git config --global --get user.name`
+usermail=`git config --get user.email`
+username=`git config --get user.name`
 
 # info text
 printf "${white}Total git repository diff stats for %s until $blue%s$white:\n" "$username" "$date"
