@@ -14,8 +14,11 @@ date=`git log -1 | grep "^Date:" | gawk '{printf "%s %s, %s - %s", $3, $4, $6, $
 usermail=`git config --get user.email`
 username=`git config --get user.name`
 
+# getting number of commits
+nCommits=`git log --author "$usermail" --pretty=short | grep -e "^Author:" | wc -l`
+
 # info text
-printf "${white}Total git repository diff stats for %s until $blue%s$white:\n" "$username" "$date"
+printf "${white}Total git repository diff stats for %s after %s commits until $blue%s$white:\n" "$username" "$nCommits" "$date"
 
 # get filtered git log, sort out lines, sum up and display it
 git log --author "$usermail" --pretty=tformat: --numstat |
