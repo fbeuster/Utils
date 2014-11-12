@@ -17,8 +17,19 @@ username=`git config --get user.name`
 # getting number of commits
 nCommits=`git log --author "$usermail" --pretty=short | grep -e "^Author:" | wc -l`
 
+# getting number of different files
+nFiles=`git log --author "$usermail" --pretty=tformat: --numstat | sed -e "/^$/d" | gawk ' BEGIN{} {printf $3"\n"} END{}' | sort -u | wc -l`
+
 # info text
-printf "${white}Total git repository diff stats for %s after %s commits until $blue%s$white:\n" "$username" "$nCommits" "$date"
+printf "Repository report\n"
+echo
+printf "$white  Last commit date#$blue%s
+$white  Current user#$blue%s\n
+$white  Commits by user#$blue%s\n
+$white  Files changed#$blue%s\n" "$date" "$username" "$nCommits" "$nFiles" | column -t -s "#"
+echo
+printf "$white  Total diff stats\n"
+#printf "${white}Total git repository diff stats for %s after %s commits until $blue%s$white:\n" "$username" "$nCommits" "$date"
 
 # get filtered git log, sort out lines, sum up and display it
 git log --author "$usermail" --pretty=tformat: --numstat |
@@ -49,6 +60,7 @@ END {
 		t = int(t/10)
 		w++
 	}
+	w += 2
 
 	printf "'$green'%"w"s  ++\n'$red'%"w"s  --\n'$white'%"w"s  total diff\n", a, s, d
 }
