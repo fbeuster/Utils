@@ -23,13 +23,16 @@ tCommits=`git log --pretty=short | grep -e "^Author:" | wc -l`
 # getting number of different files
 nFiles=`git log --author "$usermail" --pretty=tformat: --numstat | sed -e "/^$/d" | gawk ' BEGIN{} {printf $3"\n"} END{}' | sort -u | wc -l`
 
+# getting total number of files
+tFiles=`git log --pretty=tformat: --numstat | sed -e "/^$/d" | gawk ' BEGIN{} {printf $3"\n"} END{}' | sort -u | wc -l`
+
 # info text
 printf "Repository report\n"
 echo
 printf "$white  Last commit date#$blue%s
 $white  Current user#$blue%s\n
 $white  Commits by user#$blue%s of %s\n
-$white  Files changed#$blue%s\n" "$date" "$username" "$nCommits" "$tCommits" "$nFiles" | column -t -s "#"
+$white  Files changed#$blue%s of %s\n" "$date" "$username" "$nCommits" "$tCommits" "$nFiles" "$tFiles" | column -t -s "#"
 echo
 printf "$white  Total diff stats\n"
 
