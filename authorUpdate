@@ -1,0 +1,26 @@
+#!/bin/sh
+
+CHECK="xxx"
+OLD_EMAIL="xxx"
+CORRECT_NAME="Felix Beuster"
+CORRECT_EMAIL="felix.beuster@beusterse.de"
+
+if [ "$OLD_EMAIL" = "$CHECK" ]
+then
+	printf "You need to set a old email first!\n"
+	exit
+fi
+
+git filter-branch --env-filter '
+
+if [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL" ]
+then
+	export GIT_COMMITTER_NAME="$CORRECT_NAME"
+	export GIT_COMMITTER_EMAIL="$CORRECT_EMAIL"
+fi
+if [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL" ]
+then
+	export GIT_AUTHOR_NAME="$CORRECT_NAME"
+	export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
+fi
+' --tag-name-filter cat -- --branches --tags
