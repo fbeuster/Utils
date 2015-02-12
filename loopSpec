@@ -1,0 +1,18 @@
+#!/bin/bash
+# Small Program to run rspec tests multiple times
+#
+# call like: ./loopSpec 17 files
+# where 17 is your number of runs and
+# files are the test you would pass into the rspec commans
+
+# setup counters
+goal=$1
+n=0
+shift
+
+# looping until desired number is reached
+until [[ $n -eq $goal ]]; do
+  let n+=1
+  echo "-- Test No. $n --"
+  rspec "$@"
+done
