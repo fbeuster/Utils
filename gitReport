@@ -20,7 +20,7 @@ username=`git config --get user.name`
 nCommits=`git shortlog -s -e | grep -e "$usermail" | sed -r -e 's/^[\ \t]*([0-9]+).*$/\1/'`
 
 # getting number of total commits
-tCommits=`git shortlog | grep -E '^[ ]+\w+' | wc -l`
+tCommits=`git rev-list HEAD --count`
 
 # getting number of different files
 nFiles=`git log --author "$usermail" --pretty=tformat: --numstat | sed -e "/^$/d" | gawk ' BEGIN{} {printf $3"\n"} END{}' | sort -u | wc -l`
@@ -60,10 +60,10 @@ END {
 	} else {
 		w = s
 	}
-	
+
 	t = w
 	w = 3
-	
+
 	while(t >= 10) {
 		t = int(t/10)
 		w++
