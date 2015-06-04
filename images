@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#num=${ls | wc -l}
+#name=`printf("$1_%05d", $n)`
+#ls | cat -n | while read n f; do mv "$f" "$name.jpg"; done
+
+
+# rotating all .JPG in folder
+# for file in ./*.JPG; do convert "$file" -rotate 180 "$file"; done
+
+# tools for images
+# sudo apt-get install imagemagick geeqie darktable pyrenamer
